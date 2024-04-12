@@ -93,13 +93,13 @@ fun JoinButton(onClick: (Boolean) -> Unit = {}){
                 }
 
             }
-
+    
     Box(
         modifier = Modifier
             .clip(shape)
             .border(width = 1.dp, color = Color.Blue, shape = shape)
             .background(color = buttonBackgroundColor)
-            .size(width = 40.dp, height = 24.dp)
+            .size(width = buttonWidth, height = 24.dp)
             .clickable(onClick = {
                 buttonState =
                     if(buttonState == JoinButtonState.IDLE) {
