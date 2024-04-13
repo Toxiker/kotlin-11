@@ -20,17 +20,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.*
 import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.sp
 
 @Composable
-fun JoinButton(onClick: (Boolean) -> Unit = {}){
+fun JoinButton(onClick: (Boolean) -> Unit = {}) {
     var buttonState: JoinButtonState
             by remember { mutableStateOf(JoinButtonState.IDLE) }
 
@@ -42,7 +46,7 @@ fun JoinButton(onClick: (Boolean) -> Unit = {}){
     )
 
     val duration = 600
-    val buttonBackgroundColor: Color by transition.animateColor (
+    val buttonBackgroundColor: Color by transition.animateColor(
         transitionSpec = { tween(duration) },
         label = "Button Background Color"
     ) { state ->
@@ -58,7 +62,7 @@ fun JoinButton(onClick: (Boolean) -> Unit = {}){
                 label = "Button Width"
 
             ) { state ->
-                when (state){
+                when (state) {
                     JoinButtonState.IDLE -> 70.dp
                     JoinButtonState.PRESSED -> 32.dp
                 }
@@ -68,8 +72,8 @@ fun JoinButton(onClick: (Boolean) -> Unit = {}){
             by transition.animateDp(
                 transitionSpec = { tween(duration) },
                 label = "Text Max Width"
-            ) {state ->
-                when (state){
+            ) { state ->
+                when (state) {
                     JoinButtonState.IDLE -> 40.dp
                     JoinButtonState.PRESSED -> 0.dp
                 }
@@ -84,16 +88,16 @@ fun JoinButton(onClick: (Boolean) -> Unit = {}){
 
     val iconTintColor: Color
             by transition.animateColor(
-                transitionSpec = { tween(duration)},
+                transitionSpec = { tween(duration) },
                 label = "Icon Tint Color"
-            ){state ->
-                when (state){
+            ) { state ->
+                when (state) {
                     JoinButtonState.IDLE -> Color.White
                     JoinButtonState.PRESSED -> Color.Blue
                 }
 
             }
-    
+
     Box(
         modifier = Modifier
             .clip(shape)
@@ -102,22 +106,39 @@ fun JoinButton(onClick: (Boolean) -> Unit = {}){
             .size(width = buttonWidth, height = 24.dp)
             .clickable(onClick = {
                 buttonState =
-                    if(buttonState == JoinButtonState.IDLE) {
+                    if (buttonState == JoinButtonState.IDLE) {
                         onClick.invoke(true)
                         JoinButtonState.PRESSED
-                    }else{
+                    } else {
                         onClick.invoke(false)
                         JoinButtonState.IDLE
                     }
             }),
         contentAlignment = Alignment.Center
-    ){
-        Icon(
-            imageVector = iconAssert,
-            contentDescription = "Plus Icon",
-            tint = iconTintColor,
-            modifier = Modifier.size(16.dp)
-        )
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Icon(
+                imageVector = iconAssert,
+                contentDescription = "Plus Icon",
+                tint = iconTintColor,
+                modifier = Modifier.size(16.dp)
+            )
+            Text(
+                text = "Join",
+                color = Color.White,
+                fontSize = 14.sp,
+                maxLines = 1,
+                modifier = Modifier
+                    .widthIn(
+                        min = 0.dp,
+                        max = textMaxWidth
+                    )
+            )
+
+        }
     }
 }
 
