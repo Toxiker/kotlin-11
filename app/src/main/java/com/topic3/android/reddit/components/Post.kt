@@ -54,9 +54,6 @@ fun Post(post: PostModel,
             Spacer(modifier = Modifier.height(8.dp))
             PostActions(post)
         }
-    }
-
-}
 
 @Composable
 fun Header(
